@@ -1,5 +1,6 @@
 from ..models.teachers_model import create_new_teacher, get_all_teachers
 from ..utils import hash_str, render
+from ..middlewares import auth_middleware
 
 
 def register(body):
@@ -21,7 +22,7 @@ def register(body):
     password = hash_str.hash_str(password)
 
     teacher = create_new_teacher(name, password, email)
-    return render.render__one(teacher)
+    return (render.render__one(teacher), auth_middleware.create(teacher))
 
 
 def teachers_list():
