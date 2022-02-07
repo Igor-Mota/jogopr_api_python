@@ -36,16 +36,12 @@ def create_new_teacher(name, password_hash):
 def get_all_teachers():
     con = connect()
     cursor = con.cursor()
-    teachers = []
     try:
         cursor.execute('select * from teachers')
         records = cursor.fetchall()
         cursor.close()
         con.close()
-        for record in records:
-            json = '{"id":"'+str(record[0])+'","name":"'+record[1] + \
-                '","materia":"'+record[2]+'","type":"'+str(record[3])+'"}'
-            teachers.append(json)
-        return teachers
+
+        return records
     except Error as error:
         return 'Error' + error
