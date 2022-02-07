@@ -13,12 +13,12 @@ def get_a_teacher(name):
     return records
 
 
-def create_new_teacher(name, password_hash):
+def create_new_teacher(name, password_hash, email):
     con = connect()
     cursor = con.cursor()
 
-    sql_insert = 'INSERT INTO teachers (name, password) VALUES (%s, %s)'
-    values = (name, password_hash)
+    sql_insert = 'INSERT INTO teachers (name, password, email) VALUES (%s, %s, %s)'
+    values = (name, password_hash, email)
     try:
         verify = get_a_teacher(name)
         if len(verify) > 0:
