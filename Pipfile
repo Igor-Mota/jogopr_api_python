@@ -1,0 +1,8 @@
+
+
+[packages]
+flask="*"
+flask-cors="*"
+mysql.connector="*"
+pyjwt="*"
+

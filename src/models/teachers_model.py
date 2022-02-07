@@ -1,4 +1,3 @@
-import json
 from .connection import connect
 from mysql.connector import Error
 
