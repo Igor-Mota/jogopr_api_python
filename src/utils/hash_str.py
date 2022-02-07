@@ -8,3 +8,11 @@ def hash_str(string):
     text = text.hexdigest()
 
     return text
+
+
+def compare(string, pass_hash):
+    compare = hash_str(string)
+    if compare == pass_hash:
+        return 'is equal'
+    else:
+        return 'password is wrong'

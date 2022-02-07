@@ -4,11 +4,21 @@ from flask_cors import CORS, cross_origin
 
 
 def routes(app):
+
+    CORS(app)
+
     @app.route('/auth/register', methods=['POST'])
-    @cross_origin(origin='*', headers=['Content-Type', 'application/json'])
+    @cross_origin(origin='*', headers=['Content-Type', 'application/json', "Access-Control-Allow-Origin", "*"])
     def register():
         body = request.get_json()
         return jsonify(authenticate.register(body))
+
+    @app.route('/auth/login', methods=['POST'])
+    @cross_origin(origin='*', headers=['Content-Type', 'application/json', "Access-Control-Allow-Origin", "*"])
+    def login():
+        body = request.get_json()
+
+        return jsonify(authenticate.login(body))
 
     @app.route('/list', methods=['GET'])
     @cross_origin(origin='*', headers=['Content-Type', 'application/json'])

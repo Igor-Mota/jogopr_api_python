@@ -3,13 +3,17 @@ from mysql.connector import Error
 
 
 def get_a_teacher(email):
-    con = connect()
-    cursor = con.cursor()
-    sql__check = str('select * from teachers where email = "{}"').format(email)
-    cursor.execute(sql__check)
-    records = cursor.fetchall()
+    try:
+        con = connect()
+        cursor = con.cursor()
+        sql__check = str(
+            'select * from teachers where email = "{}"').format(email)
+        cursor.execute(sql__check)
+        records = cursor.fetchall()
 
-    return records
+        return records
+    except:
+        return
 
 
 def create_new_teacher(name, password_hash, email):

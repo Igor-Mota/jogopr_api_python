@@ -1,4 +1,4 @@
-from ..models.teachers_model import create_new_teacher, get_all_teachers
+from ..models.teachers_model import create_new_teacher, get_a_teacher, get_all_teachers
 from ..utils import hash_str, render
 from ..middlewares import auth_middleware
 
@@ -22,8 +22,23 @@ def register(body):
     password = hash_str.hash_str(password)
 
     teacher = create_new_teacher(name, password, email)
-    return (render.render__one(teacher), auth_middleware.create(teacher))
+    return render.render__one(teacher, auth_middleware.create(teacher))
 
+
+def login(body):
+
+    email = body['email']
+    password = body['password']
+
+    teacher = get_a_teacher(email)
+    try:
+        compare_hashs = hash_str.compare(password, teacher[0][3])
+        if compare_hashs == "password is wrong":
+            return compare_hashs
+        else:
+            return render.render__one(teacher, auth_middleware.create(teacher))
+    except:
+        return 'user does not exist'
 
 def teachers_list():
     return get_all_teachers
