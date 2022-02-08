@@ -10,4 +10,16 @@ def create(body):
         response = questions.create_a_question(body, activity_id[0])
         return {"main": serializer.serialize(question_skeleton.question_skeleton(), response[0])}
     except:
-        return 'deu problema'
+        return {
+            "_ERROR": "could not make the request",
+            "_message": 'some field does not match what was expected',
+            "expected": {
+                "question": "string",
+                "answer_1": "string",
+                "answer_2": "string",
+                "answer_3": "string",
+                "correct": "integer",
+                "code": "string"
+            },
+            "recive": body
+        }
