@@ -40,5 +40,6 @@ def login(body):
     except:
         return 'user does not exist'
 
+
 def teachers_list():
-    return get_all_teachers
+    return get_all_teachers()

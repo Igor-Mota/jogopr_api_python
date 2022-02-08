@@ -6,7 +6,7 @@ import src.routes
 sys.dont_write_bytecode = False
 
 app = Flask(__name__)
-
+CORS(app)
 
 src.routes.routes(app)
 
