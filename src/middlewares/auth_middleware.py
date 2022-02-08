@@ -1,17 +1,17 @@
-from time import sleep
+import email
 import jwt
 import datetime
-import asyncio
 
 
 def create(user):
+
     if isinstance(user, str):
         return 0
     user_control = user[0]
     payload = {
         "id": user_control[0],
         "user": user_control[2],
-        "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=10),
+        "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
     }
 
     token = jwt.encode(payload, 'miranha', algorithm='HS256')
@@ -26,9 +26,14 @@ def authorization(token):
         token = token.replace('Bearer ', '')
 
         def return__jwt():
+
             carga = jwt.decode(token, 'miranha', algorithms=['HS256'])
             data = []
             data.append(carga.get('id'))
             data.append(carga.get('user'))
-            return data
+
+            data_new_token = dict(
+                id=data[0], email=data[1], token=create([[data[0], '', data[1]]]))
+            return data_new_token
+
     return return__jwt()

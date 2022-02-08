@@ -1,5 +1,5 @@
+from email import header
 from pickle import TRUE
-from tokenize import Number
 from .controllers import authenticate, activity
 from flask import request, jsonify
 from flask_cors import CORS, cross_origin
@@ -25,16 +25,9 @@ def routes(app):
     @app.route('/activity/create', methods=['POST'])
     @cross_origin(origin='*', headers=['Content-Type', 'application/json', "Access-Control-Allow-Origin", "*"])
     def create_activity():
-        body = request.get_json()
-        print(body)
-        try:
-            token = request.headers['Authorization']
-            autorized = auth_middleware.authorization(token)
 
-            if(isinstance(autorized, list) == TRUE):
-                print('aqui')
-                return 'activity.create(body)'
-            else:
-                return 'deuu ruim'
-        except:
-            return 'token is error'
+        body = request.get_json()
+        token = request.headers['Authorization']
+        autorized = auth_middleware.authorization(token)
+        full_data = dict(headers=autorized, body=body)
+        return activity.create(full_data)
