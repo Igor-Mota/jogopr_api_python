@@ -150,3 +150,15 @@ def routes(app):
             return jsonify(questions.delete(full_data))
         else:
             return autorized
+
+    @app.route('/questions/get/<_id>', methods=['GET'])
+    @cross_origin(origin='*', headers=['Content-Type', 'application/json', "Access-Control-Allow-Origin", "*"])
+    def get_many(_id):
+        token = request.headers['Authorization']
+        autorized = auth_middleware.authorization(token)
+        full_data = dict(headers=autorized, _id=_id)
+
+        if isinstance(autorized, dict):
+            return jsonify(questions.get(full_data))
+        else:
+            return autorized

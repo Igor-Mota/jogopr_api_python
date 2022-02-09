@@ -28,24 +28,23 @@ def create_a_question(data, _id):
 
 
 def edit_question(data):
-    def update_a_activity(body):
-        try:
-            body = body['body']
-            con = connect()
-            cursor = con.cursor()
-            sql_edit = 'UPDATE questions SET question= %s, answer_1 = %s,answer_2 = %s, answer_3= %s, correct=%s, where id = %s '
-            cursor.execute(
-                sql_edit, [body['question'], body['answer_1'], body['answer_2'], body['answer_3'], body['correct'], body['id']])
-            con.commit()
 
-            cursor.execute(
-                "SELECT * FROM questions where code = %s ", [body['code']])
-            updated = cursor.fetchall()
-            cursor.close()
-            con.close()
-            return updated
-        except:
-            return {"Message": "question not found"}
+    body = data['body']
+    con = connect()
+    cursor = con.cursor()
+
+    sql_edit = "UPDATE questions SET question= %s, answer_1 = %s,answer_2 = %s, answer_3= %s, correct=%s where id = %s"
+
+    cursor.execute(
+        sql_edit, [body['question'], body['answer_1'], body['answer_2'], body['answer_3'], body['correct'], int(body['id'])])
+    con.commit()
+
+    cursor.execute(
+        "SELECT * FROM questions "+"where id = '%s' ", [body['id']])
+    updated = cursor.fetchall()
+    cursor.close()
+    con.close()
+    return updated
 
 
 def delete_question(_id):
@@ -62,11 +61,11 @@ def delete_question(_id):
         }
 
 
-def get_all():
+def get_all(key):
     con = connect()
     cursor = con.cursor()
-    query = ('select * from activityes where teacher_id = %s')
-    cursor.execute(query, [teacher_id])
+    query = ('select * from questions where activitye_key  = %s')
+    cursor.execute(query, [key])
     records = cursor.fetchall()
     cursor.close()
     con.close()

@@ -25,10 +25,12 @@ def create(body):
         }
 
 
-def edit(data):
+def get(data):
+    return serializer.serialize__many(question_skeleton.question_skeleton(), questions.get_all(data['_id']))
 
-    put = questions.edit_question(data)
-    return {"Message": data, "t": put}
+
+def edit(data):
+    return serializer.serialize(question_skeleton.question_skeleton(), questions.edit_question(data)[0])
 
 
 def delete(data):
