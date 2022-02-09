@@ -23,3 +23,13 @@ def create(body):
             },
             "recive": body
         }
+
+
+def edit(data):
+
+    put = questions.edit_question(data)
+    return {"Message": data, "t": put}
+
+
+def delete(data):
+    return questions.delete_question(data['_id'])

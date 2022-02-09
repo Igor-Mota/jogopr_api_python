@@ -1,5 +1,8 @@
-from ..models.teachers_model import create_new_teacher, get_a_teacher, get_all_teachers
+from urllib import response
+from ..models.teachers_model import create_new_teacher, get_a_teacher, edit_a_teacher, delet_a_teacer
 from ..utils import hash_str, render
+from ..helpers.serializer import serializer
+from ..helpers.skeletons import teacher_skeleton
 from ..middlewares import auth_middleware
 
 
@@ -41,5 +44,32 @@ def login(body):
         return 'user does not exist'
 
 
-def teachers_list():
-    return get_all_teachers()
+def forgot_password(body):
+    return {'message', "calma"}
+
+
+def edit_teacher(body):
+    try:
+        response = serializer.serialize(teacher_skeleton.teacher_skeleton(
+        ), edit_a_teacher(body['headers']['id'], body['body'])[0])
+        response.pop('password', None)
+        return response
+    except:
+        return {
+            "_Message": "Error in params",
+            "Expected": {
+                "name": "string",
+                "email": "string",
+                "password": "string"
+            },
+            "recive": body['body']
+        }
+
+
+def delet_teacher(body):
+    if int(body['headers']['id']) == int(body['route_id']):
+        return delet_a_teacer(body['route_id'])
+    else:
+        return {
+            "Message": "Ivavlid id"
+        }

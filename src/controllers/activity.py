@@ -1,3 +1,4 @@
+from urllib import response
 from ..models import activity
 from ..helpers.serializer import serializer
 from ..helpers.skeletons import activity_skeleton
@@ -19,9 +20,31 @@ def create(data):
         return {'message': 'erro'}
 
 
+def get_my_all(body):
+    response = activity.get_my_activityes(body['headers']['id'])
+    return serializer.serialize__many(activity_skeleton.activity_skeleton(), response)
+
+
 def login(body):
     try:
         response = activity.get_a_activity_from_code(body['code'])
         return {'activity': serializer.serialize(activity_skeleton.activity_skeleton(), response[0])}
     except:
         return 'not found'
+
+
+def update_activity(body):
+    try:
+        return {'activity': serializer.serialize(activity_skeleton.activity_skeleton(), activity.update_a_activity(body)[0])}
+    except:
+        {"Message": "Invalida filleds"}
+
+
+def delet_activity(body):
+
+    compare = serializer.serialize(
+        activity_skeleton.activity_skeleton(),  activity.get_a_activity_from_code(body['code'])[0])
+    if(int(compare['teacher_id']) == int(compare['teacher_id'])):
+        return activity.delet_activity(body['code'])
+    else:
+        return {"Message": "essa ativvidade nao e sua"}

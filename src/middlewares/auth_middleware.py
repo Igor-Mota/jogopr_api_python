@@ -1,4 +1,3 @@
-import email
 import jwt
 import datetime
 
@@ -19,21 +18,21 @@ def create(user):
 
 
 def authorization(token):
-
     if token.find('Bearer') == -1:
         return 'token mal formated'
     else:
         token = token.replace('Bearer ', '')
 
         def return__jwt():
+            try:
+                carga = jwt.decode(token, 'miranha', algorithms=['HS256'])
+                data = []
+                data.append(carga.get('id'))
+                data.append(carga.get('user'))
 
-            carga = jwt.decode(token, 'miranha', algorithms=['HS256'])
-            data = []
-            data.append(carga.get('id'))
-            data.append(carga.get('user'))
-
-            data_new_token = dict(
-                id=data[0], email=data[1], token=create([[data[0], '', data[1]]]))
-            return data_new_token
-
+                data_new_token = dict(
+                    id=data[0], email=data[1], token=create([[data[0], '', data[1]]]))
+                return data_new_token
+            except:
+                return 'Token not vald'
     return return__jwt()
