@@ -13,7 +13,6 @@ def get_question(_id):
 
 
 def create_a_question(data, _id):
-
     con = connect()
     cursor = con.cursor()
 

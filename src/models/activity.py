@@ -46,6 +46,7 @@ def get_a_activity_from_code(code):
 
     cursor.execute('select * from activityes where code = "{}"'.format(code))
     records = cursor.fetchall()
+
     return records
 
 

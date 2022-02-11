@@ -21,3 +21,10 @@ def edit(data):
 
 def delete(data):
     return questions.delete_question(data['_id'])
+
+
+def get_from_key(key):
+    try:
+        return serializer.serialize__many(question_skeleton.question_skeleton(), questions.get_all(key))
+    except:
+        return {"Message": "not a question"}

@@ -1,4 +1,4 @@
-from .controllers import authenticate, activity, questions
+from .controllers import authenticate, activity, questions, gruoups
 from flask import request, jsonify
 from flask_cors import cross_origin
 from .middlewares import auth_middleware
@@ -79,6 +79,11 @@ def routes(app):
     def login_code():
         body = request.get_json()
         return jsonify(activity.login(body))
+
+    @app.route('/activity/getcode/<code>', methods=['GET'])
+    @cross_origin(origin='*', headers=['Content-Type', 'application/json', "Access-Control-Allow-Origin", "*"])
+    def get_from_code(code):
+        return jsonify(activity.get_from_code(code))
 
     @app.route('/activity/get', methods=['GET'])
     @cross_origin(origin='*', headers=['Content-Type', 'application/json', "Access-Control-Allow-Origin", "*"])
@@ -162,3 +167,36 @@ def routes(app):
             return jsonify(questions.get(full_data))
         else:
             return autorized
+
+    @app.route('/questions/getall/<_key>', methods=['GET'])
+    @cross_origin(origin='*', headers=['Content-Type', 'application/json', "Access-Control-Allow-Origin", "*"])
+    def get_all_from_key(_key):
+        return jsonify(questions.get_from_key(_key))
+
+    @app.route('/group/set', methods=['POST'])
+    @cross_origin(origin='*', headers=['Content-Type', 'application/json', "Access-Control-Allow-Origin", "*"])
+    def set_group():
+        body = request.get_json()
+        return jsonify(gruoups.set_group(body))
+
+    @app.route('/group/get/<_id>', methods=['GET'])
+    @cross_origin(origin='*', headers=['Content-Type', 'application/json', "Access-Control-Allow-Origin", "*"])
+    def get_group(_id):
+        return jsonify(gruoups.get_group(_id))
+
+    @app.route('/group/getall/', methods=['GET'])
+    @cross_origin(origin='*', headers=['Content-Type', 'application/json', "Access-Control-Allow-Origin", "*"])
+    def get_allgroup():
+        return jsonify(gruoups.all_groups())
+
+    @app.route('/group/define', methods=['POST'])
+    @cross_origin(origin='*', headers=['Content-Type', 'application/json', "Access-Control-Allow-Origin", "*"])
+    def define_group():
+        body = request.get_json()
+        return jsonify(gruoups.define_group(body))
+
+    @app.route('/group/code', methods=['POST'])
+    @cross_origin(origin='*', headers=['Content-Type', 'application/json', "Access-Control-Allow-Origin", "*"])
+    def get_all_code():
+        body = request.get_json()
+        return jsonify(gruoups.all_code(body))

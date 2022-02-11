@@ -6,6 +6,11 @@ import re
 import uuid
 
 
+def get_from_code(code):
+
+    return serializer.serialize(activity_skeleton.activity_skeleton(), activity.get_a_activity_from_code(code)[0])
+
+
 def create(data):
     try:
         code = uuid.uuid4().hex
